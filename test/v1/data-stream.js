@@ -288,8 +288,10 @@ module.exports = {
 
         },
         async stream(test) {
+
             test.expect(3);
-            const org = DataStream.fromArray([1,2,3,4]);
+            const orgArr = Array.from(Array(33).keys());
+            const org = DataStream.fromArray(orgArr);
 
             const out1 = org.tee(new DataStream());
 
@@ -301,9 +303,9 @@ module.exports = {
 
             const [aOrg, aOut1, aOut2] = await Promise.all([pOrg, pOut1, pOut2]);
 
-            test.deepEqual(aOrg, [1,2,3,4], "Original stream is not affected");
-            test.deepEqual(aOut1, [1,2,3,4], "Tee'd streams have the right content");
-            test.deepEqual(aOut2, [1,2,3,4], "Tee'd streams have the right content");
+            test.deepEqual(aOrg, orgArr, "Original stream is not affected");
+            test.deepEqual(aOut1, orgArr, "Tee'd streams have the right content");
+            test.deepEqual(aOut2, orgArr, "Tee'd streams have the right content");
 
             test.done();
 
